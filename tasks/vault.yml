@@ -1,0 +1,50 @@
+---
+
+  - name: Vault | Check if is present
+    command: test -x {{vault_path}}/vault
+    ignore_errors: yes
+    register: vault_present
+    tags: vault
+
+  - name: Vault | Dependencies
+    apt: pkg="{{item}}" state="present"
+    with_items:
+      - curl
+      - unzip
+    when: vault_present | failed
+    tags: vault
+
+  - name: Vault | Download
+    get_url: url="https://dl.bintray.com/mitchellh/vault/vault_{{vault_version}}_linux_amd64.zip" dest="/tmp/vault.zip"
+    when: vault_present | failed
+    tags: vault
+
+  - name: Vault | Install
+    unarchive: src=/tmp/vault.zip dest="{{vault_path}}" copy=no
+    become: yes
+    when: vault_present | failed
+    tags: vault
+
+  - name: Vault | Template config
+    template: src="{{root_dir}}/templates/vault/vault-config.hcl.j2" dest="{{vault_path}}/vault-config.hcl"
+    become: yes
+    when: vault_present | failed
+    tags: vault
+
+  - name: Vault | Template vault-server
+    template: src="{{root_dir}}/templates/vault/vault-server.j2" dest="{{vault_path}}/vault-server" mode="0755"
+    become: yes
+    when: vault_present | failed
+    tags: vault
+
+  - name: Vault | Template upstart script
+    template: src="{{root_dir}}/templates/vault/vault-upstart.conf.j2" dest="/etc/init/vault-server.conf"
+    become: yes
+    when: vault_present | failed
+    tags: vault
+
+  - name: Vault | Start service
+    service: name="vault-server" state="started"
+    become: yes
+    when: vault_present | failed
+    tags: vault
