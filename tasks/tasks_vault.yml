@@ -48,6 +48,10 @@
     when: vault_present | failed
     tags: vault
 
+  # Pause for 30 seconds on docker for service to appear
+  - pause: seconds=30
+    when: docker_test
+
   - name: Vault | Start service
     service: name="vault-server" state="started"
     become: yes

@@ -4,7 +4,7 @@ BOX_PLAYBOOK=$WORKSPACE/box.yml
 BOX_NAME=sixteen
 BOX_ADDRESS=192.168.0.16
 BOX_USER=slavko
-BOX_PWD=
+BOX_PWD=qwertyui31
 
 prudentia ssh <<EOF
 unregister $BOX_NAME

@@ -3,5 +3,5 @@
   roles:
     - {
         role: "role_under_test",
-        option_install_java: true
+        docker_test: true
       }
