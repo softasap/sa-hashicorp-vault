@@ -14,8 +14,13 @@
     when: vault_present | failed
     tags: vault
 
+  - name: Vault | Create installation directory
+    file: dest="{{vault_path}}" mode=755 state=directory
+    become: yes
+    tags: vault
+
   - name: Vault | Download
-    get_url: url="https://dl.bintray.com/mitchellh/vault/vault_{{vault_version}}_linux_amd64.zip" dest="/tmp/vault.zip"
+    get_url: url="https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip" dest="/tmp/vault.zip"
     when: vault_present | failed
     tags: vault
 
