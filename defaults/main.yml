@@ -1,7 +1,7 @@
 ---
 # defaults file for sa-hashicorp-vault
 
-root_dir: "{{role_dir}}"
+root_dir: "{{role_path}}"
 
 option_install_console_tools: false
 option_install_nginx: true
