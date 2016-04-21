@@ -4,6 +4,7 @@
 root_dir: "{{role_dir}}"
 
 option_install_console_tools: false
+option_install_nginx: true
 
 vault_version: 0.5.2
 vault_path: "/opt/vault_{{vault_version}}"
