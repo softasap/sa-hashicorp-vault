@@ -1,0 +1,4 @@
+[submodule "roles/sa-hashicorp-vault"]
+        path = roles/sa-hashicorp-vault
+        url = https://github.com/softasap/sa-hashicorp-vault.git
+
