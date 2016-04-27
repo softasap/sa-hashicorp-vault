@@ -45,11 +45,29 @@
   - name: Vault | Template upstart script
     template: src="{{root_dir}}/templates/vault/vault-upstart.conf.j2" dest="/etc/init/vault-server.conf"
     become: yes
+    when: ansible_distribution_release in [ "trusty" ] and vault_present | failed
     when: vault_present | failed
     tags: vault
 
   - name: Vault | Start service
     service: name="vault-server" state="started"
     become: yes
-    when: docker_test is not defined and vault_present | failed
+    when: ansible_distribution_release in [ "trusty" ] and docker_test is not defined and vault_present | failed
     tags: vault
+
+  - name: Vault | Create systemd service
+    template: src={{root_dir}}/templates/vault/vault.service.j2 dest=/etc/systemd/system/vault-server.service mode=0644
+    when: ansible_distribution_release in [ "xenial" ] and vault_present | failed
+    become: yes
+    tags:
+      - mailhog
+
+  - name: Vault | Restart
+    service: name=vault-server state=restarted
+    when: ansible_distribution_release in [ "xenial" ] and docker_test is not defined # no systemd on docker in travis
+    become: yes
+    tags:
+      - mailhog
+
+
+

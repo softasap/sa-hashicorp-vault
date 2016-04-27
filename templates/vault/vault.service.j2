@@ -1,0 +1,11 @@
+[Unit]
+Description=Vault server
+After=network.target
+
+[Service]
+ExecStart={{vault_path}}/vault-server {{vault_path}}/vault-config.hcl
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target
+
