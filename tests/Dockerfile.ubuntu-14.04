@@ -2,7 +2,7 @@
 FROM ubuntu:14.04
 
 #RUN rm /etc/apt/apt.conf.d/docker-gzip-indexes
-#RUN apt-get update
+RUN apt-get update
 #RUN apt-get -f install
 # Install Ansible
 #RUN apt-get update -y
