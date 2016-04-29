@@ -1,7 +1,7 @@
 ---
 galaxy_info:
   author: vyacheslav voronenko
-  description: Basic role for nginx based deployments
+  description: Basic role for installing hashicorp vault
   company: http://www.voronenko.info/
   # If the issue tracker for your role is not on github, uncomment the
   # next line and provide a value
