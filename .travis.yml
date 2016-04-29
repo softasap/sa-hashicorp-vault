@@ -28,6 +28,8 @@ before_install:
   - 'sudo docker pull ${distribution}:${version}'
   # Customize container
   - 'sudo docker build --rm=true --file=tests/Dockerfile.${distribution}-${version} --tag=${distribution}-${version}:ansible tests'
+  # Upgrade local setup tools
+  - 'sudo pip install --upgrade setuptools'
 
 script:
   - container_id=$(mktemp)
