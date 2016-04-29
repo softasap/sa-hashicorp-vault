@@ -7,9 +7,9 @@ RUN apt-get update
 # Install Ansible
 #RUN apt-get update -y
 #RUN apt-get upgrade -y
-RUN apt-get install -y software-properties-common libssl-dev libffi-dev git python-dev wget
-RUN apt-get install -y python-pip
-RUN pip install -U pip
+#RUN apt-get install -y software-properties-common libssl-dev libffi-dev git python-dev wget
+#RUN apt-get install -y python-pip
+#RUN pip install -U pip
 RUN pip install ansible
 RUN mkdir -p /etc/ansible
 # emulate gui structure
