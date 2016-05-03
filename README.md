@@ -338,3 +338,8 @@ Some files just help using existing vault functionality in a more handy way:
 # Points of interest
 
 This covers only very basic aspects to start using vault in your organization, but could be a  nice first step to move forward.
+
+
+# Change notes
+
+1.1.0 Fixed tests for Xenial 16.04
