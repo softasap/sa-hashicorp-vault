@@ -22,8 +22,12 @@
     tags:
       - vault
 
+  - debug: msg="Downloading https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip"
+    tags:
+      - vault
+
   - name: Vault | Download
-    get_url: url="https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip" dest="/tmp/vault.zip"
+    get_url: url="https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip" dest="/tmp/vault.zip" validate_certs="no"
     when: vault_present | failed
     tags:
       - vault
