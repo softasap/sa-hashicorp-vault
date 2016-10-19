@@ -343,3 +343,11 @@ This covers only very basic aspects to start using vault in your organization, b
 # Change notes
 
 1.1.0 Fixed tests for Xenial 16.04
+
+
+Copyright and license
+---------------------
+
+Code licensed under the [BSD 3 clause] (https://opensource.org/licenses/BSD-3-Clause) or the [MIT License] (http://opensource.org/licenses/MIT).
+
+Subscribe for roles updates at [FB] (https://www.facebook.com/SoftAsap/)
