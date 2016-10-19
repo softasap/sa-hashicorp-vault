@@ -348,6 +348,6 @@ This covers only very basic aspects to start using vault in your organization, b
 Copyright and license
 ---------------------
 
-Code licensed under the [BSD 3 clause] (https://opensource.org/licenses/BSD-3-Clause) or the [MIT License] (http://opensource.org/licenses/MIT).
+Code is dual licensed under the [BSD 3 clause] (https://opensource.org/licenses/BSD-3-Clause) and the [MIT License] (http://opensource.org/licenses/MIT). Choose the one that suits you best.
 
 Subscribe for roles updates at [FB] (https://www.facebook.com/SoftAsap/)
