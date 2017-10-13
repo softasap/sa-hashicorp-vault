@@ -25,12 +25,12 @@ Vault by HashiCorp is one of the tools that might provide acceptable level of se
 # Installing
 
 Formal installation steps are covered by this article: [https://vaultproject.io/docs/install/](https://vaultproject.io/docs/install/)
-For purposes of the demo article let me provide semi automated script, that installs vault *0.1.2* into /opt/vault_0.1.2 folder , configures it to listen on localhost port 8200 and registers it as a service called vault-server
+For purposes of the demo article let me provide semi automated script, that installs vault *0.8.3* into /opt/vault_0.8.3 folder , configures it to listen on localhost port 8200 and registers it as a service called vault-server
 <pre>
 
 #!/bin/sh
 
-VAULT_VERSION=${VAULT_VERSION-0.5.2}
+VAULT_VERSION=${VAULT_VERSION-0.8.3}
 VAULT_PATH=/opt/vault_$VAULT_VERSION
 UNAME=`uname -m`
 
