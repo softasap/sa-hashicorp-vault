@@ -53,7 +53,6 @@
     template: src="{{root_dir}}/templates/vault/vault-upstart.conf.j2" dest="/etc/init/vault-server.conf"
     become: yes
     when: ansible_distribution_release in [ "trusty" ] and vault_present | failed
-    when: vault_present | failed
     tags:
       - vault
 
