@@ -1,9 +1,9 @@
 ---
 # tasks file for sa-hashicorp-vault
-  - include_tasks: tasks_nginx.yml
+  - include: tasks_nginx.yml
     when: option_install_nginx
 
-  - import_tasks: tasks_vault.yml
+  - include: tasks_vault.yml
 
-  - include_tasks: vault_console_tools.yml
+  - include: vault_console_tools.yml
     when: option_install_console_tools
