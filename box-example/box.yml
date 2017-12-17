@@ -11,7 +11,10 @@
   roles:
      - {
          role: "sa-hashicorp-vault",
+         vault_version: 0.9.0,
          option_self_signed_cert: true
+#         option_bootstrap_storage: true,
+#         vault_bootstrap_storage_file: "/home/slavko/softasap/ansible/sa-hashicorp-vault/box-example/vault.tar.gz"
        }
 
 
