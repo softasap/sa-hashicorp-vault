@@ -13,6 +13,8 @@ RUN mkdir -p /etc/ansible
 # setup tools 3.3 conflict
 RUN wget https://bootstrap.pypa.io/ez_setup.py -O - | python
 
+RUN pip install -U pyOpenSSL ndg-httpsclient pyasn1
+
 RUN mkdir -p /home/root/Desktop
 
 COPY initctl_faker .
