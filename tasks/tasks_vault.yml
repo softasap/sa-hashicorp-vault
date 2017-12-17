@@ -112,7 +112,7 @@
 
   - name: Vault | Copy predefined dhparam for prod deploy debugging purposes
     copy: "src={{role_dir}}/files/nginx/dhparam.pem dest={{vault_ssl_certificate_path}}/dhparam.pem"
-    sudo: yes
+    become: yes
     when: option_predefined_dhparam and vault_dhparam_present | failed
     tags:
       - vault
