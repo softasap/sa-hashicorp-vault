@@ -10,7 +10,8 @@
 
   roles:
      - {
-         role: "sa-hashicorp-vault"
+         role: "sa-hashicorp-vault",
+         option_self_signed_cert: true
        }
 
 
