@@ -1,5 +1,8 @@
 ---
 # tasks file for sa-hashicorp-vault
+
+  - include: use/__detect_init_system.yml
+ 
   - include: tasks_nginx.yml
     when: option_install_nginx
 

@@ -2,9 +2,9 @@
 WORKSPACE=./
 BOX_PLAYBOOK=$WORKSPACE/box.yml
 BOX_NAME=sixteen
-BOX_ADDRESS=192.168.0.16
+BOX_ADDRESS=192.168.2.66
 BOX_USER=slavko
-BOX_PWD=qwertyui31
+BOX_PWD=
 
 prudentia ssh <<EOF
 unregister $BOX_NAME
