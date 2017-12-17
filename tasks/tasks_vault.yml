@@ -60,13 +60,6 @@
     tags:
       - vault
 
-  - name: Vault | Start service
-    service: name="vault-server" state="started"
-    become: yes
-    when: upstart_system=="systemd" and docker_test is not defined and vault_present | failed
-    tags:
-      - vault
-
   - name: Vault | Create systemd service
     template: src={{role_dir}}/templates/vault/vault.service.j2 dest=/etc/systemd/system/vault-server.service mode=0644
     when: upstart_system=="systemd" and vault_present | failed
@@ -74,10 +67,11 @@
     tags:
       - vault
 
-  - name: Vault | Restart
-    service: name=vault-server state=restarted
-    when: docker_test is not defined
+
+  - name: Vault | Start service
+    service: name="vault-server" state="restarted" enabled="yes"
     become: yes
+    when: docker_test is not defined and vault_present | failed
     tags:
       - vault
 
