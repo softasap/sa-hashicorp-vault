@@ -7,6 +7,7 @@ option_install_console_tools: true
 option_install_nginx: true
 option_self_signed_cert: false
 option_predefined_dhparam: true
+option_bootstrap_file_storage: false # If you have file storage from previous install
 
 vault_version: 0.9.0
 vault_path: "/opt/vault_{{vault_version}}"
@@ -20,3 +21,5 @@ vault_ssl_certificate_key: "vault"
 ssl_dhparam_size: 2048
 
 vault_domain: vault.vagrant.dev
+
+# vault_bootstrap_storage_file = "vault.tar.gz"
