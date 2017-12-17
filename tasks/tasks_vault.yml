@@ -26,6 +26,7 @@
     tags:
       - vault
 
+
   - name: Vault | Download
     get_url: url="https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip" dest="/tmp/vault.zip" validate_certs="no"
     when: vault_present | failed
@@ -36,6 +37,11 @@
     unarchive: src=/tmp/vault.zip dest="{{vault_path}}" copy=no
     become: yes
     when: vault_present | failed
+    tags:
+      - vault
+
+  - name: Vault | Cleaunup media
+    file: path="/tmp/vault.zip" state="absent"
     tags:
       - vault
 
