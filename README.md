@@ -3,10 +3,8 @@ sa-hashicorp-vault
 
 [![Build Status](https://travis-ci.org/softasap/sa-hashicorp-vault.svg?branch=master)](https://travis-ci.org/softasap/sa-hashicorp-vault)
 
-see box-example for deployment demo
-
-
 # Background
+
 "Don’t Check Passwords into Source Control or Hard-Code Them
 in Your Application
 Operations staff will remove your eyes with a spoon if they catch you doing this.
@@ -14,10 +12,72 @@ Don’t give them the pleasure Passwords should always be entered by the user pe
 
 Vault by HashiCorp is one of the tools that might provide acceptable level of security for devops engineers for enterprise scenarios as well as for smaller teams like startups.
 
+
+see box-example for deployment demo , take a look https://github.com/softasap/sa-hashicorp-vault if you are looking for smth visual.
+
+
+
+Example of usage (all parameters are optional)
+
+Simple
+
+```YAML
+  roles:
+    - {
+        role: "sa-hashicorp-vault"
+      }
+```
+
+Advanced:
+
+```YAML
+  roles:
+    - {
+        role: "sa-hashicorp-vault"
+      }
+```
+
+Note: if you ever needed to downgrade mysql on xenial to 5.6 rather than default 5.7 available now - use this replacement role `sa-mysql56`:
+
+https://github.com/softasap/sa-mysql56
+
+
+Usage with ansible galaxy workflow
+----------------------------------
+
+If you installed the sa-hashicorp-vault role using the command
+
+
+`
+   ansible-galaxy install softasap.sa-hashicorp-vault
+`
+
+the role will be available in the folder library/softasap.sa-mysql
+Please adjust the path accordingly.
+
+```YAML
+
+     - {
+         role: "softasap.sa-hashicorp-vault"
+       }
+
+```
+
+requirements.yml snippet: 
+
+```YAML
+- src: softasap.sa-hashicorp-vault
+  name: sa-hashicorp-vault
+```
+
+
+
+
+
 ## Challenges to address
   At the end of the article we should be able
 
-- install vault on a ubuntu 14.04 :TS server
+- install vault on a ubuntu LTS server
 - initialize vault
 - store secrets in vault
 - access secrets in vault
@@ -350,4 +410,13 @@ Copyright and license
 
 Code is dual licensed under the [BSD 3 clause] (https://opensource.org/licenses/BSD-3-Clause) and the [MIT License] (http://opensource.org/licenses/MIT). Choose the one that suits you best.
 
+Reach us:
+
 Subscribe for roles updates at [FB] (https://www.facebook.com/SoftAsap/)
+
+Join gitter discussion channel at [Gitter](https://gitter.im/softasap)
+
+Discover other roles at  http://www.softasap.com/roles/registry_generated.html
+
+visit our blog at http://www.softasap.com/blog/archive.html
+

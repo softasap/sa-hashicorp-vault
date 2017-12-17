@@ -1,14 +1,13 @@
 ---
-  - name: Vault Tools | Dependencies
-    apt: pkg="{{item}}" state="present"
-    with_items:
-      - git
-    when: vault_present | failed
+  - name: Vault | Stop Vault server
+    service: name="vault-server" state="stopped"
+    become: yes
     tags:
       - vault
 
-  - name: Vault Tools | Install https://github.com/Voronenko/hashi_vault_utils
-    git: repo=https://github.com/Voronenko/hashi_vault_utils.git dest="{{vault_console_tools_path}}" update=no bare=yes accept_hostkey=yes
-    when: vault_present | failed
+  - name: Vault | Unpack storage to bootstrapped
+    unarchive: src="" dest="" owner="root" group="root"
+    become: yes
     tags:
       - vault
+
