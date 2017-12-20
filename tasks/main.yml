@@ -11,5 +11,5 @@
   - include_tasks: vault_console_tools.yml
     when: option_install_console_tools
 
-  - include_tasks: vault_bootstrap_file_storage.yml
+  - include_tasks: tasks_vault_bootstrap_file_storage.yml
     when: option_bootstrap_storage and vault_bootstrap_file_storage is defined 
