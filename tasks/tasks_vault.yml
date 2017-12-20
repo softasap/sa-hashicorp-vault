@@ -81,6 +81,12 @@
     tags:
       - vault
 
+  - name: Vault | Link to /usr/local/bin
+    file: src="{{vault_path}}/vault" dest=/usr/local/bin/vault owner=root group=root state=link
+    become: yes
+    tags:
+      - vault
+
   - name: Vault | Template nginx template
     template: src="{{role_dir}}/templates/vault/nginx.conf.j2" dest="/etc/nginx/sites-available/vault.conf"
     when: option_install_nginx
