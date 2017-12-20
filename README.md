@@ -52,6 +52,15 @@ If you installed the sa-hashicorp-vault role using the command
    ansible-galaxy install softasap.sa-hashicorp-vault
 `
 
+ansible-galaxy snippet:
+
+```YAML
+
+- src: softasap.sa-hashicorp-vault
+  name: sa-hashicorp-vault
+
+```
+
 the role will be available in the folder library/softasap.sa-mysql
 Please adjust the path accordingly.
 
