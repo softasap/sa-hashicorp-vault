@@ -12,6 +12,7 @@
     with_items:
       - curl
       - unzip
+    become: yes
     when: vault_present | failed
     tags:
       - vault
