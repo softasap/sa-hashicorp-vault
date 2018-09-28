@@ -10,7 +10,7 @@ option_predefined_dhparam: true
 option_bootstrap_storage: false # If you have file storage from previous install
 # vault_bootstrap_storage_file = "vault.tar.gz"
 
-vault_version: 0.10.3
+vault_version: 0.11.1
 vault_path: "/opt/vault_{{vault_version}}"
 vault_max_lease_ttl: "180000h"
 
