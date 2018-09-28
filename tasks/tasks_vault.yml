@@ -143,3 +143,29 @@
     become: yes
     tags:
       - vault
+
+  - name: Vault |  Create symbolic link 
+    file:
+      src: "{{vault_path}}"
+      dest: "/opt/vault"
+      state: link
+    become: yes
+    tags:
+      - vault
+
+  - name: Vault |  Template backup script
+    template:
+      src: "templates/regular_vault_backup.sh.j2"
+      dest: "{{vault_path}}/regular_vault_backup.sh"
+      mode: "0755"
+    become: yes
+    tags:
+      - vault
+
+  - name: Vault |  Template restore script
+    copy:
+      src: "templates/vault_restore_template.sh"
+      dest: "{{vault_path}}/vault_restore_template.sh"
+    become: yes
+    tags:
+      - vault

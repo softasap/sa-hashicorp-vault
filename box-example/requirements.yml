@@ -1,2 +1,6 @@
 - src: softasap.sa-hashicorp-vault
   name: sa-hashicorp-vault
+- src: softasap.sa-dehydrated
+  name: sa-dehydrated
+- src: softasap.sa-nginx
+  name: sa-nginx

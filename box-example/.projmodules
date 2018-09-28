@@ -1,4 +1,9 @@
 [submodule "roles/sa-hashicorp-vault"]
         path = roles/sa-hashicorp-vault
         url = https://github.com/softasap/sa-hashicorp-vault.git
-
+[submodule "roles/sa-dehydrated"]
+        path = roles/sa-dehydrated
+        url = https://github.com/softasap/sa-dehydrated.git
+[submodule "roles/sa-nginx"]
+        path = roles/sa-nginx
+        url = https://github.com/softasap/sa-nginx.git
