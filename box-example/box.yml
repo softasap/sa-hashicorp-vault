@@ -8,7 +8,7 @@
     - my_domains:
       - {
           names:        "{{my_vault_domain}}",
-          nginx_config: "/etc/nginx/sites-available/letsencrypt_site_to_validate"
+#          nginx_config: "/etc/nginx/sites-available/letsencrypt_site_to_validate"
         }
 
   pre_tasks:
@@ -34,7 +34,7 @@
      - {
           role:              "sa-dehydrated",
           le_domains:        "{{ my_domains }}",
-          le_ca:            "https://acme-staging.api.letsencrypt.org/directory",
+#          le_ca:            "https://acme-staging-v02.api.letsencrypt.org/directory",
           option_run_once:   True,
           option_setup_cron: True
        }
@@ -42,7 +42,10 @@
      - {
          role: "sa-hashicorp-vault",
          vault_version: 0.11.1,
-         option_self_signed_cert: true
+         option_self_signed_cert: false,
+         vault_ssl_certificate_path: "/opt/letsencrypt/certs/{{my_vault_domain}}",
+         vault_ssl_certificate: "fullchain.pem",
+         vault_ssl_certificate_key: "privkey.pem"
 #         option_bootstrap_storage: true,
 #         vault_bootstrap_storage_file: "/home/slavko/softasap/ansible/sa-hashicorp-vault/box-example/vault.tar.gz"
        }
