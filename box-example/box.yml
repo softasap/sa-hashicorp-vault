@@ -3,12 +3,31 @@
 
   vars:
     - root_dir: ..
-
+    - my_vault_domain: vvault.voronenko.net
+    - my_domains:
+      - {
+          names:        "{{my_vault_domain}}",
+          nginx_config: "/etc/nginx/sites-available/letsencrypt_site_to_validate"
+        }
 
   pre_tasks:
     - debug: msg="Pre tasks section"
 
   roles:
+
+     - {
+          role:              "sa-nginx",
+       }
+
+
+     - {
+          role:              "sa-dehydrated",
+          le_domains:        "{{ my_domains }}",
+          le_ca:            "https://acme-staging.api.letsencrypt.org/directory",
+          option_run_once:   True,
+          option_setup_cron: True
+       }
+
      - {
          role: "sa-hashicorp-vault",
          vault_version: 0.9.0,
