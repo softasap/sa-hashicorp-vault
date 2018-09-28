@@ -17,8 +17,8 @@ vault_max_lease_ttl: "180000h"
 vault_console_tools_path: "/home/{{ansible_user_id}}/vault"
 
 vault_ssl_certificate_path: /etc/nginx
-vault_ssl_certificate: "vault"
-vault_ssl_certificate_key: "vault"
+vault_ssl_certificate: "vault.crt"
+vault_ssl_certificate_key: "vault.key"
 ssl_dhparam_size: 2048
 
 vault_domain: vault.vagrant.dev

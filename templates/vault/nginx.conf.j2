@@ -2,8 +2,8 @@ server {
   listen 443 ssl;
   server_name {{vault_domain}};
 
-  ssl_certificate {{vault_ssl_certificate_path}}/{{vault_ssl_certificate}}.crt;
-  ssl_certificate_key {{vault_ssl_certificate_path}}/{{vault_ssl_certificate_key}}.key;
+  ssl_certificate {{vault_ssl_certificate_path}}/{{vault_ssl_certificate}};
+  ssl_certificate_key {{vault_ssl_certificate_path}}/{{vault_ssl_certificate_key}};
 
   location / {
     proxy_pass http://127.0.0.1:8200;
