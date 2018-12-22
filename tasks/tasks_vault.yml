@@ -1,14 +1,18 @@
 ---
 
   - name: Vault | Check if is present
-    command: test -x {{vault_path}}/vault
+    command: test -x {{ vault_path }}/vault
     ignore_errors: yes
     register: vault_present
     tags:
       - vault
+      - skip_ansible_lint
 
   - name: Vault | Dependencies
-    apt: pkg="{{item}}" state="present"
+    apt: pkg="{{ item }}" state="present"
+    retries: 3
+    register: result
+    until: not result.failed
     with_items:
       - curl
       - unzip
@@ -18,24 +22,27 @@
       - vault
 
   - name: Vault | Create installation directory
-    file: dest="{{vault_path}}" mode=755 state=directory
+    file: dest="{{ vault_path }}" mode=0755 state=directory
     become: yes
     tags:
       - vault
 
-  - debug: msg="Downloading https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip"
+  - debug: msg="Downloading https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
     tags:
       - vault
 
 
   - name: Vault | Download
-    get_url: url="https://releases.hashicorp.com/vault/{{vault_version}}/vault_{{vault_version}}_linux_amd64.zip" dest="/tmp/vault.zip" validate_certs="no"
+    get_url:
+      url: "https://releases.hashicorp.com/vault/{{ vault_version }}/vault_{{ vault_version }}_linux_amd64.zip"
+      dest: "/tmp/vault.zip"
+      validate_certs: "no"
     when: vault_present  is failed
     tags:
       - vault
 
   - name: Vault | Install
-    unarchive: src=/tmp/vault.zip dest="{{vault_path}}" copy=no
+    unarchive: src=/tmp/vault.zip dest="{{ vault_path }}" copy=no
     become: yes
     when: vault_present  is failed
     tags:
@@ -47,28 +54,28 @@
       - vault
 
   - name: Vault | Template config
-    template: src="{{role_dir}}/templates/vault/vault-config.hcl.j2" dest="{{vault_path}}/vault-config.hcl"
+    template: src="{{ role_dir }}/templates/vault/vault-config.hcl.j2" dest="{{ vault_path }}/vault-config.hcl"
     become: yes
     when: vault_present  is failed
     tags:
       - vault
 
   - name: Vault | Template vault-server
-    template: src="{{role_dir}}/templates/vault/vault-server.j2" dest="{{vault_path}}/vault-server" mode="0755"
+    template: src="{{ role_dir }}/templates/vault/vault-server.j2" dest="{{ vault_path }}/vault-server" mode="0755"
     become: yes
     when: vault_present  is failed
     tags:
       - vault
 
   - name: Vault | Template upstart script
-    template: src="{{role_dir}}/templates/vault/vault-upstart.conf.j2" dest="/etc/init/vault-server.conf"
+    template: src="{{ role_dir }}/templates/vault/vault-upstart.conf.j2" dest="/etc/init/vault-server.conf"
     become: yes
     when: upstart_system=="upstart" and vault_present  is failed
     tags:
       - vault
 
   - name: Vault | Create systemd service
-    template: src={{role_dir}}/templates/vault/vault.service.j2 dest=/etc/systemd/system/vault-server.service mode=0644
+    template: src={{ role_dir }}/templates/vault/vault.service.j2 dest=/etc/systemd/system/vault-server.service mode=0644
     when: upstart_system=="systemd" and vault_present  is failed
     become: yes
     tags:
@@ -83,55 +90,61 @@
       - vault
 
   - name: Vault | Link to /usr/local/bin
-    file: src="{{vault_path}}/vault" dest=/usr/local/bin/vault owner=root group=root state=link
+    file: src="{{ vault_path }}/vault" dest=/usr/local/bin/vault owner=root group=root state=link
     become: yes
     tags:
       - vault
 
   - name: Vault | Template nginx template
-    template: src="{{role_dir}}/templates/vault/nginx.conf.j2" dest="/etc/nginx/sites-available/vault.conf"
+    template: src="{{ role_dir }}/templates/vault/nginx.conf.j2" dest="/etc/nginx/sites-available/vault.conf"
     when: option_install_nginx
     become: yes
     tags:
       - vault
 
   - name: Vault | Enable sites
-    command: ln -fs /etc/nginx/sites-available/vault.conf /etc/nginx/sites-enabled/vault creates=/etc/nginx/sites-enabled/vault
+    command: >
+        ln -fs /etc/nginx/sites-available/vault.conf /etc/nginx/sites-enabled/vault
+        creates=/etc/nginx/sites-enabled/vault
     become: yes
     tags:
       - vault
 
   - name: Vault | Check if certificate is present
-    command: test -x {{vault_ssl_certificate_path}}/{{vault_ssl_certificate}}.crt
+    command: test -x {{ vault_ssl_certificate_path }}/{{ vault_ssl_certificate }}.crt
     ignore_errors: yes
     register: vault_cert_present
     become: yes
     tags:
       - vault
+      - skip_ansible_lint
 
   - name: Vault | Check if dhparam is present
-    command: test -x {{vault_ssl_certificate_path}}/dhparam.pem
+    command: test -x {{ vault_ssl_certificate_path }}/dhparam.pem
     ignore_errors: yes
     register: vault_dhparam_present
     become: yes
     tags:
       - vault
+      - skip_ansible_lint
 
   - name:  Vault | NGINX - Generate self signed certs
-    include: use/__create_selfsigned_cert.yml key="{{vault_ssl_certificate_key}}" crt="{{vault_ssl_certificate}}" fqdn="{{vault_domain}}" target_dir="{{vault_ssl_certificate_path}}"
+    include: use/__create_selfsigned_cert.yml key="{{ vault_ssl_certificate_key }}" crt="{{ vault_ssl_certificate }}" fqdn="{{ vault_domain }}" target_dir="{{ vault_ssl_certificate_path }}"
     when: option_install_nginx and option_self_signed_cert and vault_cert_present is failed
     tags:
       - vault
 
   - name: Vault | Copy predefined dhparam for prod deploy debugging purposes
-    copy: "src={{role_dir}}/files/nginx/dhparam.pem dest={{vault_ssl_certificate_path}}/dhparam.pem"
+    copy: "src={{ role_dir }}/files/nginx/dhparam.pem dest={{ vault_ssl_certificate_path }}/dhparam.pem"
     become: yes
     when: option_predefined_dhparam and vault_dhparam_present  is failed
     tags:
       - vault
 
   - name: Client | Generate nginx dhparam.pem if not exists
-    command: openssl dhparam -out {{vault_ssl_certificate_path}}/dhparam.pem {{ssl_dhparam_size}} creates={{vault_ssl_certificate_path}}/dhparam.pem
+    command: >
+        openssl dhparam -out {{ vault_ssl_certificate_path }}/dhparam.pem {{ ssl_dhparam_size }}
+        creates={{ vault_ssl_certificate_path }}/dhparam.pem
     when: vault_dhparam_present  is failed
     become: yes
     tags:
@@ -144,9 +157,9 @@
     tags:
       - vault
 
-  - name: Vault |  Create symbolic link 
+  - name: Vault |  Create symbolic link
     file:
-      src: "{{vault_path}}"
+      src: "{{ vault_path }}"
       dest: "/opt/vault"
       state: link
     become: yes
@@ -156,7 +169,7 @@
   - name: Vault |  Template backup script
     template:
       src: "templates/regular_vault_backup.sh.j2"
-      dest: "{{vault_path}}/regular_vault_backup.sh"
+      dest: "{{ vault_path }}/regular_vault_backup.sh"
       mode: "0755"
     become: yes
     tags:
@@ -165,7 +178,7 @@
   - name: Vault |  Template restore script
     copy:
       src: "templates/vault_restore_template.sh"
-      dest: "{{vault_path}}/vault_restore_template.sh"
+      dest: "{{ vault_path }}/vault_restore_template.sh"
     become: yes
     tags:
       - vault

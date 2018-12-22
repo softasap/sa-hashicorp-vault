@@ -13,6 +13,9 @@
 
   - name: Nginx | Add GPG key to apt keyring
     apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+    retries: 3
+    register: result
+    until: not result.failed
     when: nginx_present is failed
     become: yes
     tags:
@@ -20,7 +23,7 @@
 
 
   - name: Nginx | Add Debian apt repository
-    apt_repository: repo="deb http://nginx.org/packages/debian/ {{ansible_distribution_release}} nginx"
+    apt_repository: repo="deb http://nginx.org/packages/debian/ {{ ansible_distribution_release }} nginx"
     when: ansible_os_family == "Debian" and ansible_distribution != "Ubuntu" and nginx_present is failed
     become: yes
     tags:
@@ -28,7 +31,7 @@
 
 
   - name: Nginx | Add Ubuntu apt repository
-    apt_repository: repo="deb http://nginx.org/packages/ubuntu/ {{ansible_distribution_release}} nginx"
+    apt_repository: repo="deb http://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx"
     when: ansible_distribution == "Ubuntu" and nginx_present is failed
     become: yes
     tags:
@@ -37,6 +40,9 @@
 
   - name: Nginx | Install
     apt: update-cache=yes force=yes state=present pkg=nginx
+    retries: 3
+    register: result
+    until: not result.failed
     when: ansible_os_family == "Debian" and nginx_present is failed
     become: yes
     tags:
@@ -44,7 +50,7 @@
 
 
   - name: Nginx | Create sites available/enabled directories
-    file: path={{item}} state=directory mode=0755
+    file: path={{ item }} state=directory mode=0755
     with_items:
       - /etc/nginx/sites-available
       - /etc/nginx/sites-enabled
