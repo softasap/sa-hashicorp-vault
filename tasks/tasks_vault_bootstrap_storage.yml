@@ -6,13 +6,23 @@
       - vault
 
   - name: Vault | Pump file to target server
-    copy: src="{{vault_bootstrap_storage_file}}" dest="{{vault_path}}/vault-storage.tar.gz" owner="root" group="root"
+    copy:
+      src: "{{ vault_bootstrap_storage_file }}"
+      dest: "{{ vault_path }}/vault-storage.tar.gz"
+      owner: "root"
+      group: "root"
     become: yes
     tags:
       - vault
 
   - name: Vault | Unarchieve file storage
-    unarchive: src="{{vault_path}}/vault-storage.tar.gz" dest="{{vault_path}}" remote_src="yes" owner="root" group="root" creates="{{vault_path}}/storage"
+    unarchive:
+      src: "{{ vault_path }}/vault-storage.tar.gz"
+      dest: "{{ vault_path }}"
+      remote_src: "yes"
+      owner: "root"
+      group: "root"
+      creates: "{{ vault_path }}/storage"
     become: yes
     tags:
       - vault

@@ -84,6 +84,10 @@ script:
   # Ansible syntax check.
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook} --syntax-check'
 
+  # Ansible linting
+  - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-lint -x formatting -c /etc/ansible/roles/role_under_test/.ansible-lint /etc/ansible/roles/role_under_test'
+
+
   # Test role.
   - 'sudo docker exec --tty "$(cat ${container_id})" env TERM=xterm ansible-playbook /etc/ansible/roles/role_under_test/tests/${playbook}'
 

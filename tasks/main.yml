@@ -12,4 +12,4 @@
     when: option_install_console_tools
 
   - include_tasks: tasks_vault_bootstrap_storage.yml
-    when: option_bootstrap_storage and vault_bootstrap_file_storage is defined 
+    when: option_bootstrap_storage and vault_bootstrap_file_storage is defined

@@ -1,12 +1,20 @@
 ---
   - name: Vault Tools | Dependencies
-    apt: pkg="{{item}}" state="present"
+    apt: pkg="{{ item }}" state="present"
+    retries: 3
+    register: result
+    until: not result.failed
     with_items:
       - git
     tags:
       - vault
 
   - name: Vault Tools | Install https://github.com/Voronenko/hashi_vault_utils
-    git: repo=https://github.com/Voronenko/hashi_vault_utils.git dest="{{vault_console_tools_path}}" update=yes accept_hostkey=yes
+    git:
+      repo: https://github.com/Voronenko/hashi_vault_utils.git
+      dest: "{{ vault_console_tools_path }}"
+      update: yes
+      accept_hostkey: yes
+      version: master
     tags:
       - vault
