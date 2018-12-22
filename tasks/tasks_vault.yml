@@ -103,9 +103,10 @@
       - vault
 
   - name: Vault | Enable sites
-    command: >
-        ln -fs /etc/nginx/sites-available/vault.conf /etc/nginx/sites-enabled/vault
-        creates=/etc/nginx/sites-enabled/vault
+    file:
+      src: /etc/nginx/sites-available/vault.conf
+      dest: /etc/nginx/sites-enabled/vault
+      state: link
     become: yes
     tags:
       - vault
